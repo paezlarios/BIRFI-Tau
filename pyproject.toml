@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tcspc_lifetime"
+version = "0.3.1"
+description = "Fluorescence lifetimes from TCSPC decays with a blindly extracted IRF (BIRFI, lambda-m approach), for batch processing behind a GUI."
+requires-python = ">=3.9"
+dependencies = ["numpy>=1.22", "scipy>=1.8", "whittaker-eilers>=0.2"]
+
+[project.optional-dependencies]
+test = ["pytest>=7"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["slow: long simulations; run them with  pytest -m slow"]
+addopts = "-m 'not slow'"
