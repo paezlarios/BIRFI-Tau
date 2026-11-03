@@ -15,8 +15,8 @@ from .core.cut import find_initial_cut, make_m_grid
 from .core.deconvolution import deconvolve_irf, normalise_irf
 from .core.diagnostics import block_curvature, irf_distance, pearson_residuals
 from .core.errors import central_difference, fisher_covariance, profile_error
-from .core.reconvolution import (decay_shape, fit_amplitude_and_background,
-                                 fit_single_lifetime, poisson_deviance, profile_deviance)
+from .core.reconvolution import (decay_shape, fit_amplitude_and_background, fit_single_lifetime,
+                                 place_irf, poisson_deviance, profile_deviance)
 from .core.smoothing import make_lambda_grid, whittaker_smooth
 from .core.window import estimate_background, find_window_start, measure_rise_time
 from .results import PerDecayResult
@@ -79,6 +79,7 @@ def analyse(decay, config=None):
         lambda_grid_bins4=lambda_grid, m_grid_bin=m_grid, deviance_per_dof_map=deviance_per_dof_map,
         tau_map_ns=tau_map, near_best_mask=near_best, irf_distance_map=distance_map,
         best_lambda_bins4=float(lambda_grid[i_best]), best_m_bin=best_m, irf=irf,
+        irf_full_period=place_irf(irf, start, decay.counts.size),
         tau_ns=tau_ns, tau_profile_error_ns=float(profile_err), tau_fisher_error_ns=fisher_err,
         tau_systematic_ns=float(0.5 * np.ptp(tau_map[near_best])),
         amplitude_counts=float(amplitude), background_fit_counts=float(background_fit),

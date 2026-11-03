@@ -281,6 +281,7 @@ class _SampleProblem:
             library_version=__version__, calibration_name=self.calibration.name,
             model=model.to_dict(), time_ns=self.time_ns, counts=self.counts,
             model_counts=model_counts, residuals_sigma=residuals, fit_mask=m,
+            irf_full_period=irf,
             parameters=parameters, deviance=float(deviance), degrees_of_freedom=dof,
             deviance_per_dof=float(deviance / dof), curvature_sum_z2=curvature,
             curvature_blocks=n_blocks, correlation_names=names, correlation=correlation)

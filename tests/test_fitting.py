@@ -61,6 +61,31 @@ def test_fixed_offset_and_free_scatter():
     assert within(r, "scatter_counts", 3000) and within(r, "tau_1_ns", 2.5)
 
 
+def test_irf_on_the_full_histogram_with_fixed_shift():
+    """Shift held at 0: the calibration IRF at its absolute bins 15..34, zeros elsewhere."""
+    compact = smooth_irf(TIME_NS)[15:35]
+    calibration = Calibration.from_known_irf(compact, 15, TIME_NS)
+    expected, _ = expected_sample(smooth_irf(TIME_NS), TIME_NS, [2.5], [1.0], 2e4, 8.0)
+    model = Model(1, shift_bins=Parameter(0.0, fixed=True))
+    r = fit_sample(Decay(TIME_NS, poisson_decay(expected, 6)), calibration, model)
+    full = r.irf_full_period
+    assert full.size == 250
+    assert np.allclose(full[15:35], compact / compact.sum(), rtol=1e-14, atol=0)
+    assert not full[:15].any() and not full[35:].any()
+    assert len(r.to_dict()["irf_full_period"]) == 250
+
+
+def test_irf_on_the_full_histogram_is_shifted_as_fitted():
+    """The reported IRF is the one the fit used: its centroid moves by the fitted shift, area 1."""
+    expected, _ = expected_sample(smooth_irf(TIME_NS, 0.04), TIME_NS, [2.5], [1.0], 2e4, 8.0)
+    r = fit_sample(Decay(TIME_NS, poisson_decay(expected, 7)), CALIBRATION, Model(1))
+    full = r.irf_full_period
+    bins = np.arange(TIME_NS.size)
+    assert r.value("shift_bins") > 0.2                               # a real shift to follow
+    assert (bins * full).sum() - (bins * CALIBRATION.irf).sum() == pytest.approx(r.value("shift_bins"), abs=1e-4)
+    assert full.sum() == pytest.approx(1.0, abs=1e-12)
+
+
 def test_refuses_different_binning():
     with pytest.raises(ValueError, match="settings_mismatch"):
         fit_sample(Decay(np.arange(200) * 0.1, np.ones(200)), CALIBRATION, Model(1))

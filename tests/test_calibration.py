@@ -1,4 +1,6 @@
 """Calibration: excluding a different sample, refusing what cannot be calibrated, saving."""
+import json
+
 import numpy as np
 import pytest
 
@@ -50,6 +52,23 @@ def test_different_binning():
     other = Decay(np.arange(200) * 0.1, np.ones(200), name="short")
     with pytest.raises(CalibrationError, match="settings_mismatch"):
         build_calibration([repetition(1.87, 1, "a"), other])
+
+
+def test_irf_on_the_full_histogram():
+    """The calibration IRF at its absolute bins 40..42, zeros elsewhere, also in the dictionary."""
+    c = Calibration.from_known_irf([1.0, 2.0, 1.0], 40, TIME_NS)
+    full = c.irf_full_period
+    assert full.size == 250
+    assert np.array_equal(full[40:43], [0.25, 0.5, 0.25])
+    assert not full[:40].any() and not full[43:].any()
+    assert np.array_equal(c.to_dict()["irf_full_period"], full)
+
+
+def test_saved_file_leaves_out_the_derived_irf(calibration_with_intruder, tmp_path):
+    """Version 0.3.1 refuses unknown keys on load, so the derived full-period IRF is not saved."""
+    path = tmp_path / "calibration.json"
+    calibration_with_intruder.save(path)
+    assert "irf_full_period" not in json.loads(path.read_text())
 
 
 def test_save_and_load(calibration_with_intruder, tmp_path):

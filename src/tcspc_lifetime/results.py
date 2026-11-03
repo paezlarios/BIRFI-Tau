@@ -54,6 +54,8 @@ class PerDecayResult:
         best_lambda_bins4, best_m_bin
         irf                       unit-area IRF on window bins 0..best_m;
                                   absolute position in the histogram: window_start_bin + index
+        irf_full_period           the same IRF on every bin of the full histogram, at its
+                                  absolute position, zeros elsewhere (unit area)
     Lifetime and errors (ns)
         tau_ns, tau_profile_error_ns (Δdeviance = 1), tau_fisher_error_ns,
         tau_systematic_ns (half the spread of τ over near-best pairs)
@@ -81,6 +83,7 @@ class PerDecayResult:
     best_lambda_bins4: float
     best_m_bin: int
     irf: np.ndarray
+    irf_full_period: np.ndarray
     tau_ns: float
     tau_profile_error_ns: float
     tau_fisher_error_ns: float
@@ -111,6 +114,9 @@ class SampleResult:
     Arrays over the full histogram
         time_ns, counts, model_counts, residuals_sigma
         fit_mask        True for bins inside the fitting interval
+        irf_full_period the IRF the fit used: the calibration IRF at its absolute position,
+                        shifted by shift_bins (unit area; a sub-bin shift spreads small
+                        ripples, including negative values, over the period)
     parameters
         name -> {"value", "error", "irf_error", "total_error", "free", "kind", "at_bound"}
         kind "fitted": tau_<i>_ns, amplitude_<i>_counts, shift_bins, scatter_counts,
@@ -136,6 +142,7 @@ class SampleResult:
     model_counts: np.ndarray
     residuals_sigma: np.ndarray
     fit_mask: np.ndarray
+    irf_full_period: np.ndarray
     parameters: dict
     deviance: float
     degrees_of_freedom: int

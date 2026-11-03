@@ -32,7 +32,7 @@ from .config import PerDecayConfig
 from .core.deconvolution import deconvolve_irf, normalise_irf
 from .core.diagnostics import repetition_shape_test
 from .core.errors import profile_error
-from .core.reconvolution import fit_single_lifetime, profile_deviance
+from .core.reconvolution import fit_single_lifetime, place_irf, profile_deviance
 from .core.smoothing import whittaker_smooth
 from .core.window import estimate_background
 from .io import Decay
@@ -55,6 +55,8 @@ class Calibration:
     time_ns               time axis of the histograms (ns)
     irf                   unit-area IRF
     irf_start_bin         absolute bin of irf[0] in the histogram
+    irf_full_period       (property) the IRF on every bin of the histogram, zeros elsewhere;
+                          in to_dict() for the GUI, left out by save(), ignored by load()
     best_lambda_bins4, best_m_bin   chosen smoothing and cut
     tau_reference_ns, tau_reference_error_ns   lifetime of the summed calibration decay
     n_repetitions         number of repetitions given (N)
@@ -106,6 +108,10 @@ class Calibration:
     def n_bins(self):
         return int(self.time_ns.size)
 
+    @property
+    def irf_full_period(self):
+        return place_irf(self.irf, self.irf_start_bin, self.n_bins)
+
     @classmethod
     def from_known_irf(cls, irf, irf_start_bin, time_ns, name="known IRF"):
         """A calibration from an IRF that is already known (simulations, or a measured IRF)."""
@@ -114,19 +120,23 @@ class Calibration:
                    irf_start_bin=int(irf_start_bin))
 
     def to_dict(self):
-        """Every field except the full analysis, as JSON-safe values."""
-        return json_safe({f.name: getattr(self, f.name) for f in fields(self) if f.name != "analysis"})
+        """Every field except the full analysis, plus irf_full_period, as JSON-safe values."""
+        data = {f.name: getattr(self, f.name) for f in fields(self) if f.name != "analysis"}
+        return json_safe({**data, "irf_full_period": self.irf_full_period})
 
     def save(self, path):
         """Write the calibration to a JSON file, so a batch can be refitted later."""
+        data = self.to_dict()
+        del data["irf_full_period"]                      # derived; version 0.3.1 cannot read it
         with open(path, "w") as handle:
-            json.dump(self.to_dict(), handle)
+            json.dump(data, handle)
 
     @classmethod
     def load(cls, path):
         """Read a calibration written by save()."""
         with open(path) as handle:
             data = json.load(handle)
+        data.pop("irf_full_period", None)                # derived from irf and irf_start_bin
         for key in ("time_ns", "irf", "summed_counts", "lambda_grid_bins4", "m_grid_bin", "selection_score_map"):
             data[key] = np.array(data[key], dtype=float) if data.get(key) is not None else None
         data["jackknife_irfs"] = [np.array(irf, dtype=float) for irf in data.get("jackknife_irfs", [])]

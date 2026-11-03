@@ -1,6 +1,12 @@
 # Changelog
 
 ## Unreleased
+- The IRF on the full histogram, `irf_full_period`: the unit-area IRF at its absolute
+  position, zeros elsewhere, one value per bin. In `PerDecayResult`; in `SampleResult` as
+  the fit used it, shifted by `shift_bins` (sample results carried no IRF before); and as a
+  `Calibration` property, included in `to_dict()` but not written by `save()` (0.3.1 refuses
+  unknown keys) and ignored by `load()`, so calibration files stay readable by both
+  versions. The compact `irf` is unchanged and no fitted number changes.
 - Documentation only, no change in behaviour. `docs/LibraryMasterPrompt.md` and
   `docs/VERIFICATION.md`, listed in `docs/README.md` but missing, are now exported from Claude
   Docs. The clipping notes in `normalise_irf` and `PerDecayConfig` now say what the code does:

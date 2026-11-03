@@ -25,6 +25,16 @@ def test_reference_decay_details(reference_result):
     assert abs(r.tau_systematic_ns - 0.0057) < 0.0001
 
 
+def test_irf_on_the_full_histogram(reference_result):
+    """Window bins 0..21 of the IRF sit at histogram bins 10..31; zeros everywhere else."""
+    r = reference_result
+    full = r.irf_full_period
+    assert full.size == 250
+    assert np.array_equal(full[10:32], r.irf)
+    assert not full[:10].any() and not full[32:].any()
+    assert len(r.to_dict()["irf_full_period"]) == 250
+
+
 def test_result_is_json_safe(reference_result):
     text = json.dumps(reference_result.to_dict(), allow_nan=False)
     assert '"tau_ns"' in text

@@ -166,7 +166,7 @@ def place_irf(irf, start_bin, n_bins, shift_bins=0.0):
             n_bins     - number of bins of the histogram
             shift_bins - shift in bins (may be fractional)
     Output: IRF on the full histogram (n_bins values)
-    Used by: fitting.fit_sample.
+    Used by: fitting.fit_sample, and the irf_full_period of every result and calibration.
     """
     placed = np.zeros(n_bins)
     length = min(irf.size, n_bins - start_bin)
