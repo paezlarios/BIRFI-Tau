@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+- Documentation only, no change in behaviour. `docs/LibraryMasterPrompt.md` and
+  `docs/VERIFICATION.md`, listed in `docs/README.md` but missing, are now exported from Claude
+  Docs. The clipping notes in `normalise_irf` and `PerDecayConfig` now say what the code does:
+  negative IRF samples are clipped in both modes. `reference/README.md` says where the
+  reference decay is; the README's status line names version 0.3.1.
+
 ## 0.3.1
 - Repetition shape test returns log10 p, computed through the Wilson–Hilferty approximation,
   and repetitions are ranked by it. Before, gross mismatches tied at p = 0 and clean

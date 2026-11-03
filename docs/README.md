@@ -8,5 +8,8 @@
 | `../validation/README.md` | the simulation study behind the calibration methods |
 | `../examples/walkthrough.ipynb` | the whole workflow on example data with known true values |
 
-The first two are maintained as Claude Docs and exported here as Markdown. After changing
-either, export it again and commit the new version together with the code it describes.
+`LibraryMasterPrompt.md` and `VERIFICATION.md` are maintained as Claude Docs
+([specification](https://claude.ai/artifact/7BEov2xf9Q39dQe2jPPu2o),
+[verification guide](https://claude.ai/artifact/DVRgBvK85TngWXAEuGYpVA)) and exported here as
+Markdown. After changing either, export it again and commit the new version together with
+the code it describes.

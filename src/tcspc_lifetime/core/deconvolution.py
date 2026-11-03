@@ -31,9 +31,10 @@ def normalise_irf(irf_raw, clip_negative=True):
     Unit-area IRF.
 
     Why:    BIRFI leaves the IRF's overall scale undetermined (the fit's amplitude absorbs
-            it), so it is normalised to unit area. Clipping negative samples is kept only in
-            per-decay mode, where it keeps the same-data score honest; in calibration mode
-            it biases τ and is switched off (prompt, sections 3 and 9).
+            it), so it is normalised to unit area. Negative samples are clipped in both
+            modes: in calibration mode, choosing λ and m without clipping gave a τ₂ bias of
+            -7.0 ± 1.9 ps (prompt, sections 3 and 4). Clipping itself biases τ by about
+            -4 ps only when the IRF is back to zero by the cut (prompt, section 9).
     Input:  irf_raw       - output of deconvolve_irf
             clip_negative - set negative samples to zero first
     Output: IRF with unit area, or None if its area is not positive (the pair is skipped)

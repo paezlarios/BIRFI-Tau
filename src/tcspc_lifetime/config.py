@@ -24,7 +24,7 @@ class PerDecayConfig:
     lambda_decades            the non-zero λ values span this many decades
     m_before, m_after         the m grid runs from m0 - m_before to m0 + m_after
     min_tail_bins             the cut always leaves at least this many tail bins
-    clip_negative_irf         per-decay mode keeps the reference clipping (prompt, section 3)
+    clip_negative_irf         set negative IRF samples to zero, in both modes (prompt, section 3)
     near_best_tolerance       pairs within this fraction of the best deviance/dof are near-best
     lifetime_grid_points      points of the coarse lifetime grid before refinement
     curvature_block_ns        block length of the residual-curvature statistic (ns)
