@@ -18,7 +18,7 @@ Public API
     run_batch(decays, calibration, model, progress=None) -> list of SampleResult / FailedFit
     Model, Parameter, Decay, Calibration, CalibrationError, PerDecayConfig
 """
-__version__ = "0.3.1"
+__version__ = "0.4.0"
 
 from .config import PerDecayConfig
 from .io import Decay, read_decay

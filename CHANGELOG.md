@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.4.0
 - The IRF on the full histogram, `irf_full_period`: the unit-area IRF at its absolute
   position, zeros elsewhere, one value per bin. In `PerDecayResult`; in `SampleResult` as
   the fit used it, shifted by `shift_bins` (sample results carried no IRF before); and as a

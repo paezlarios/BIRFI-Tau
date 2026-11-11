@@ -5,7 +5,7 @@ extracted blindly from a monoexponential decay (BIRFI, Gómez-Sánchez *et al.*,
 4, 100155, 2024) and the λ–m approach. Built to be called by a GUI for batch processing.
 The full specification is the LibraryMasterPrompt (`docs/LibraryMasterPrompt.md`).
 
-## Status: version 0.3.1 — build steps 1–3
+## Status: version 0.4.0 — build steps 1–3
 
 - **Per-decay mode** (step 1): the IRF comes from the decay being fitted.
 - **Calibration mode** (steps 2–3): the IRF comes from N repetitions of a calibration dye.

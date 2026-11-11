@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tcspc_lifetime"
-version = "0.3.1"
+version = "0.4.0"
 description = "Fluorescence lifetimes from TCSPC decays with a blindly extracted IRF (BIRFI, lambda-m approach), for batch processing behind a GUI."
 requires-python = ">=3.9"
 dependencies = ["numpy>=1.22", "scipy>=1.8", "whittaker-eilers>=0.2"]
