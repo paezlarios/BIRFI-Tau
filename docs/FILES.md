@@ -58,16 +58,18 @@ Read in this order; the first column is also the order data flows through the pi
 | `test_fitting.py` | sample fits recover known values; shift; fixed parameters; interval; scatter; the three errors; error coverage (slow) |
 | `test_calibration.py` | excluding a different sample; refusals; cross-validated λ and m; leave-one-out IRFs; save and load |
 | `test_synthetic_recovery.py` | recovery over 20 simulated decays (slow) |
+| `test_measured_dyes.py` | measured data: an ATTO655 calibration gives back the lifetime of a second ATTO655 series (within 1 %) |
 
 ## Examples: `examples/`
 
 | File | Purpose |
 | --- | --- |
-| `walkthrough.ipynb` | the whole workflow on example data, saved with its outputs |
+| `walkthrough.ipynb` | the whole workflow, saved with its outputs: Part I on simulated data, Part II on measured dyes |
 | `make_example_data.py` | writes the example data |
-| `data/README.md` | the example data's true values |
+| `data/README.md` | the simulated data's true values; what the measured data are |
 | `data/calibration/cal_01 … cal_05.csv` | five calibration repetitions; `cal_04` is deliberately a different sample |
 | `data/samples/sample_01 … sample_12.csv` | twelve two-component samples with a timing drift |
+| `data/measured/` | measured decays: ATTO655 (calibration and a second series), Alexa Fluor 647–phalloidin, Abberior STAR RED |
 
 ## Validation: `validation/`
 

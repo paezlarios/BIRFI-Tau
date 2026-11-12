@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+- Measured test data in `examples/data/measured/`: ATTO655 (calibration, 6 repetitions, and
+  an independent series), Alexa Fluor 647–phalloidin and Abberior STAR RED. The walkthrough
+  has a Part II that analyses them; its saved outputs are regenerated (Part I's were from
+  0.3.1 with `fit_end_ns=24.9`). New regression test `tests/test_measured_dyes.py`: the second
+  ATTO655 series refits to within 1 % of the calibration's lifetime. No library change.
+
 ## 0.4.0
 - The IRF on the full histogram, `irf_full_period`: the unit-area IRF at its absolute
   position, zeros elsewhere, one value per bin. In `PerDecayResult`; in `SampleResult` as

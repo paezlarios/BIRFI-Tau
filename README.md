@@ -34,7 +34,8 @@ The full specification is the LibraryMasterPrompt (`docs/LibraryMasterPrompt.md`
     payload = results[0].to_dict()        # JSON-safe, for the GUI
 
 `examples/walkthrough.ipynb` runs the whole workflow on simulated example data with known
-true values (`examples/data/`, made by `examples/make_example_data.py`).
+true values (`examples/data/`, made by `examples/make_example_data.py`), then on measured
+decays of three dyes in solution (`examples/data/measured/`).
 
 All times are in ns; every result field name carries its unit.
 
@@ -44,7 +45,7 @@ All times are in ns; every result field name carries its unit.
 |---|---|
 | `src/tcspc_lifetime/` | the library (the only code that is installed) |
 | `tests/` | fast tests; `pytest -m slow` adds the long simulations |
-| `examples/` | the walkthrough notebook and its simulated data |
+| `examples/` | the walkthrough notebook, its simulated data and measured dye data |
 | `validation/` | the simulation study behind the calibration methods |
 | `docs/` | the specification (LibraryMasterPrompt), the verification guide, and `FILES.md`, a guide to every file |
 | `reference/` | the BIRFI work the library was built from; source of the regression numbers |
